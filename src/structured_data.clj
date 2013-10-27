@@ -84,13 +84,16 @@
 (defn contains-duplicates? [a-seq]
   (not (== (count (set a-seq)) (count a-seq))))
 
-(defn old-book->new-book [book]
+(defn old-book->new-book-old [book]
   (if (nil? (:awards book))
     {:title (:title book)
       :authors (set (:authors book))}
     {:title (:title book)
       :awards (:awards book)
       :authors (set (:authors book))}))
+
+(defn old-book->new-book [book]
+  (assoc book :authors (set (:authors book))))
 
 (defn has-author? [book author]
   (contains? (:authors book) author))
@@ -131,7 +134,7 @@
   (filter alive? authors))
 
 (defn has-a-living-author? [book]
-  (> (count (living-authors (:authors book))) 0))
+  (not (empty? (living-authors (:authors book)))))
 
 (defn books-by-living-authors [books]
   (filter has-a-living-author? books))
